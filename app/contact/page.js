@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Head from 'next/head';
 import Link from 'next/link';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/navbar';
 import { useState } from 'react';
 
 export default function Contact() {
