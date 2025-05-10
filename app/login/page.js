@@ -12,9 +12,9 @@ export default function Login() {
         const scope = 'playlist-read-private playlist-read-collaborative';
         const state = Math.random().toString(36).substring(2, 15); // Random state for security
 
-        const authUrl = `https://accounts.spotify.com/authorize?response_type=code&client_id=${clientId}&scope=${encodeURIComponent(
-            scope
-        )}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${state}`;
+        const authUrl = `https://accounts.spotify.com/authorize?response_type=code&client_id=${clientId}&scope=${encodeURIComponent(scope)}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${state}`;
+
+        console.log('Generated Authorization URL:', authUrl);
 
         window.location.href = authUrl;
     };
