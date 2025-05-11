@@ -7,29 +7,43 @@ export async function POST(req) {
     const accessToken = req.headers.get('authorization')?.split(' ')[1];
 
     if (!accessToken) {
-      return new Response(JSON.stringify({ explanation: 'Unauthorized: Missing access token.' }), {
-        status: 401,
-        headers: { 'Content-Type': 'application/json' },
+      return new Response(
+        JSON.stringify({ explanation: 'Unauthorized: Missing access token.' }),
+        { status: 401, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Validate the access token
+    try {
+      await axios.get('https://api.spotify.com/v1/me', {
+        headers: { Authorization: `Bearer ${accessToken}` },
       });
+    } catch (error) {
+      console.error('Invalid or expired access token:', error.response?.data || error.message);
+      return new Response(
+        JSON.stringify({ explanation: 'Unauthorized: Invalid or expired access token.' }),
+        { status: 401, headers: { 'Content-Type': 'application/json' } }
+      );
     }
 
     if (!playlistUrl || typeof playlistUrl !== 'string' || playlistUrl.trim() === '') {
-      return new Response(JSON.stringify({ explanation: 'Please provide a valid Spotify playlist URL.' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      });
+      return new Response(
+        JSON.stringify({ explanation: 'Please provide a valid Spotify playlist URL.' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
     }
 
     // Extract playlist ID from URL
     const playlistIdMatch = playlistUrl.match(/playlist\/([a-zA-Z0-9]+)(\?|$)/);
     if (!playlistIdMatch) {
-      return new Response(JSON.stringify({ explanation: 'Invalid Spotify playlist URL.' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      });
+      return new Response(
+        JSON.stringify({ explanation: 'Invalid Spotify playlist URL.' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
     }
 
     const playlistId = playlistIdMatch[1];
+    console.log('Extracted Playlist ID:', playlistId);
 
     // Fetch playlist tracks (paginated)
     let tracks = [];
@@ -43,13 +57,21 @@ export async function POST(req) {
       nextUrl = data.next;
     }
 
+    if (!tracks.length) {
+      return new Response(
+        JSON.stringify({ explanation: 'No tracks found in the playlist.' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
     // Extract valid track IDs
     const trackIds = tracks
       .map((item) => item.track?.id)
       .filter((id) => typeof id === 'string');
 
-    // Fetch audio features in batches
+    // Fetch audio features in batches with a delay
     let audioFeatures = [];
+    const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     for (let i = 0; i < trackIds.length; i += 100) {
       const ids = trackIds.slice(i, i + 100).join(',');
 
@@ -60,6 +82,16 @@ export async function POST(req) {
         }
       );
       audioFeatures = audioFeatures.concat(featuresResponse.data.audio_features);
+
+      // Add a delay to avoid hitting rate limits
+      await delay(200);
+    }
+
+    if (!audioFeatures.length) {
+      return new Response(
+        JSON.stringify({ explanation: 'No audio features found for the tracks.' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
     }
 
     // Calculate averages
@@ -120,10 +152,10 @@ export async function POST(req) {
       { status: 200, headers: { 'Content-Type': 'application/json' } }
     );
   } catch (error) {
-    console.error('Error in recommend API:', error.message);
-    return new Response(JSON.stringify({ explanation: 'Internal Server Error' }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    console.error('Error in recommend API:', error.response?.data || error.message || error);
+    return new Response(
+      JSON.stringify({ explanation: 'Internal Server Error' }),
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    );
   }
 }
