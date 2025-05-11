@@ -1,14 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Head from 'next/head';
 import Navbar from './components/navbar';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from './authcontext';
+
 
 export default function Home() {
+  const router = useRouter();
   const [playlistUrl, setPlaylistUrl] = useState('');
   const [recommendation, setRecommendation] = useState(null);
   const [explanation, setExplanation] = useState('');
@@ -32,6 +36,16 @@ export default function Home() {
         'TuneKind recommends the type of device and ideal features, not specific models or stores. Feel free to contact us for more personalized advice!',
     },
   ];
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+
+    if (token) {
+      localStorage.setItem('spotifyAccessToken', token); // Store token in localStorage
+      router.replace('/'); // Clean up the URL by removing the token
+    }
+  }, [router]);
 
   const handleSubmit = async () => {
     const accessToken = localStorage.getItem('spotifyAccessToken');
