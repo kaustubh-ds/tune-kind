@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import Head from 'next/head';
+import Navbar from '../components/navbar';
 
 export default function NotFound() {
   return (
@@ -13,13 +14,7 @@ export default function NotFound() {
       </Head>
 
       {/* Navbar */}
-      <nav className="bg-white text-black w-full px-6 py-4 flex justify-between items-center shadow-[0_0_15px_#78aedb] sticky top-0 z-10">
-        <div className="flex items-center">
-          <Link href="/">
-            <Image src="/tklogo.png" alt="TuneKind Logo" width={125} height={10} className="rounded-sm" />
-          </Link>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* 404 Content */}
       <main className="flex flex-1 flex-col items-center justify-center px-4 py-20 text-center">

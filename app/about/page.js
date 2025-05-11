@@ -36,7 +36,7 @@ export default function About() {
           <div className="bg-white p-6 shadow-[0_0_5px_#78aedb] rounded-lg">
             <h2 className="text-2xl font-semibold text-[#78aedb] mb-4">How It Works</h2>
             <p className="text-gray-700">
-            Just paste a public Spotify playlist link. We break down the musical features and audio characteristics, then suggest the type of audio device that best matches your unique taste.
+            Just paste a public Spotify playlist link. All thanks to Spotify's Web API, we can break down the musical features and audio characteristics, then suggest the type of audio device that best matches your unique taste.
             </p>
           </div>
         </div>
@@ -48,7 +48,7 @@ export default function About() {
           </div>
           <div>
             <span className="block text-2xl font-bold text-[#78aedb]">99.9%</span>
-            Vibe Accuracy
+            Taste Accuracy
           </div>
         </div>
       </main>
