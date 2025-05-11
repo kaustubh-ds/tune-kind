@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import { useAuth } from '../authcontext';
 
 export default function Navbar() {
-  const { isAuthenticated, logout } = useAuth(); // Use the authContext
+  const { isAuthenticated, logout } = useAuth();
   const pathname = usePathname();
 
   return (
