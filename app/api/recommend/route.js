@@ -111,11 +111,14 @@ export async function POST(req) {
       recommendation = 'Balanced headphones suitable for various genres.';
     }
 
-    return res.status(200).json({
-      profile,
-      recommendation,
-      explanation: `Based on your playlist's audio features, we recommend: ${recommendation}`,
-    });
+    return new Response(
+      JSON.stringify({
+        profile,
+        recommendation,
+        explanation: `Based on your playlist's audio features, we recommend: ${recommendation}`,
+      }),
+      { status: 200, headers: { 'Content-Type': 'application/json' } }
+    );
   } catch (error) {
     console.error('Error in recommend API:', error.message);
     return new Response(JSON.stringify({ explanation: 'Internal Server Error' }), {
