@@ -25,24 +25,24 @@ export default function Navbar() {
       <div className="space-x-4 hidden md:flex">
         <a href="/" className="relative group overflow-hidden text-black">
           Home
-          <span className="absolute left-0 bottom-0 h-[2px] w-full bg-[#78aedb] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center"></span>
+          <span className="absolute left-0 bottom-0 h-[2px] w-full bg-[#78aedb] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-150 origin-center"></span>
         </a>
         <p>|</p>
         <a href="/about" className="relative group overflow-hidden text-black">
           About
-          <span className="absolute left-0 bottom-0 h-[2px] w-full bg-[#78aedb] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center"></span>
+          <span className="absolute left-0 bottom-0 h-[2px] w-full bg-[#78aedb] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-150 origin-center"></span>
         </a>
         <p>|</p>
         <a href="/contact" className="relative group overflow-hidden text-black">
           Contact
-          <span className="absolute left-0 bottom-0 h-[2px] w-full bg-[#78aedb] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center"></span>
+          <span className="absolute left-0 bottom-0 h-[2px] w-full bg-[#78aedb] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-150 origin-center"></span>
         </a>
         {isAuthenticated ? (
           <>
             <p>|</p>
             <button onClick={handleLogout} className="relative group overflow-hidden text-black">
               Logout
-              <span className="absolute left-0 bottom-0 h-[2px] w-full bg-[#ff0000] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center"></span>
+              <span className="absolute left-0 bottom-0 h-[2px] w-full bg-[#ff0000] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-150 origin-center"></span>
             </button>
           </>
         ) : (
@@ -50,7 +50,7 @@ export default function Navbar() {
             <p>|</p>
             <a href="/login" className="relative group overflow-hidden text-black pb-0.5">
               Login
-              <span className="absolute left-0 bottom-0 h-[2px] w-full bg-[#78aedb] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center"></span>
+              <span className="absolute left-0 bottom-0 h-[2px] w-full bg-[#78aedb] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-150 origin-center"></span>
             </a>
           </>
         )}
