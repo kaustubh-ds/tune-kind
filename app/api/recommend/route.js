@@ -1,34 +1,27 @@
 import axios from 'axios';
 
-export async function POST(req) {
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ explanation: 'Method Not Allowed' });
+  }
+
+  const { playlistUrl } = req.body;
+  const accessToken = req.headers.authorization?.split(' ')[1];
+
+  if (!accessToken) {
+    return res.status(401).json({ explanation: 'Unauthorized: Missing access token.' });
+  }
+
+  if (!playlistUrl || typeof playlistUrl !== 'string' || playlistUrl.trim() === '') {
+    return res.status(400).json({ explanation: 'Please provide a valid Spotify playlist URL.' });
+  }
+
   try {
-    const body = await req.json();
-    const { playlistUrl } = body;
-    const accessToken = req.headers.get('authorization')?.split(' ')[1];
-
-    if (!accessToken) {
-      return new Response(JSON.stringify({ explanation: 'Unauthorized: Missing access token.' }), {
-        status: 401,
-        headers: { 'Content-Type': 'application/json' },
-      });
-    }
-
-    if (!playlistUrl || typeof playlistUrl !== 'string' || playlistUrl.trim() === '') {
-      return new Response(JSON.stringify({ explanation: 'Please provide a valid Spotify playlist URL.' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      });
-    }
-
     // Extract playlist ID from URL
     const playlistIdMatch = playlistUrl.match(/playlist\/([a-zA-Z0-9]+)(\?|$)/);
     if (!playlistIdMatch) {
-      return new Response(JSON.stringify({ explanation: 'Invalid Spotify playlist URL.' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      });
+      return res.status(400).json({ explanation: 'Invalid Spotify playlist URL.' });
     }
-
     const playlistId = playlistIdMatch[1];
 
     // Fetch playlist tracks (paginated)
@@ -117,10 +110,11 @@ export async function POST(req) {
       explanation: `Based on your playlist's audio features, we recommend: ${recommendation}`,
     });
   } catch (error) {
-    console.error('Error in recommend API:', error.message);
-    return new Response(JSON.stringify({ explanation: 'Internal Server Error' }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
+    console.error('Error processing playlist:', error.message);
+
+    return res.status(500).json({
+      explanation: 'An error occurred while processing the playlist.',
+      details: error.response?.data?.error?.message || error.message || 'Unknown error',
     });
   }
 }
