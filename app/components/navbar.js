@@ -6,12 +6,12 @@ export default function Navbar() {
   const { isAuthenticated, logout } = useAuth(); // Use the authContext
 
   return (
-    <nav className="bg-white text-black w-full px-6 py-4 flex justify-between items-center shadow shadow-[0_0_15px_#78aedb] sticky top-0 z-10">
+    <nav className="bg-white text-black w-full px-6 py-3 flex justify-between items-center shadow shadow-[0_0_15px_#78aedb] sticky top-0 z-10">
       <Link href="/" className="flex items-center space-x-1">
         <Image src="/tkicon.png" alt="TuneKind Icon" width={30} height={45} className="" />
         <Image src="/tklogo.png" alt="TuneKind Logo" width={100} height={45} className="rounded-sm" />
       </Link>
-      <div className="space-x-4 hidden md:flex">
+      <div className="space-x-4 hidden md:flex items-center">
         <a href="/" className="relative group overflow-hidden text-black">
           Home
           <span className="absolute left-0 bottom-0 h-[2px] w-full bg-[#78aedb] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-150 origin-center"></span>
@@ -28,19 +28,25 @@ export default function Navbar() {
         </a>
         {isAuthenticated ? (
           <>
-            <p>|</p>
-            <button onClick={logout} className="relative group overflow-hidden text-black">
+            <button 
+              onClick={logout} className="relative group border-2 border-[#78aedb] text-[#78aedb] px-4 py-1 rounded-full overflow-hidden transition-all duration-300"
+            >
+              <span className="absolute inset-0 bg-[#78aedb] scale-x-0 group-hover:scale-x-100 transform origin-center transition-transform duration-300"></span>
+              <span className="relative group-hover:text-white transition-colors duration-300">
               Logout
-              <span className="absolute left-0 bottom-0 h-[2px] w-full bg-[#ff0000] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-150 origin-center"></span>
+              </span>
             </button>
           </>
         ) : (
           <>
-            <p>|</p>
-            <a href="/login" className="relative group overflow-hidden text-black pb-0.5">
-              Login
-              <span className="absolute left-0 bottom-0 h-[2px] w-full bg-[#78aedb] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-150 origin-center"></span>
-            </a>
+            <button
+              onClick={() => (window.location.href = '/login')} className="relative group border-2 border-[#78aedb] text-[#78aedb] px-4 py-1 rounded-full overflow-hidden transition-all duration-300"
+            >
+              <span className="absolute inset-0 bg-[#78aedb] scale-x-0 group-hover:scale-x-100 transform origin-center transition-transform duration-300"></span>
+              <span className="relative group-hover:text-white transition-colors duration-300">
+                Login
+              </span>
+            </button>
           </>
         )}
       </div>
