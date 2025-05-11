@@ -29,9 +29,9 @@ export default function Navbar() {
         {isAuthenticated ? (
           <>
             <button 
-              onClick={logout} className="relative group border-2 border-[#78aedb] text-[#78aedb] px-4 py-1 rounded-full overflow-hidden transition-all duration-300"
+              onClick={logout} className="relative group border-1 border-[#ff0000] text-[#78aedb] px-4 py-1 rounded-full overflow-hidden transition-all duration-300"
             >
-              <span className="absolute inset-0 bg-[#78aedb] scale-x-0 group-hover:scale-x-100 transform origin-center transition-transform duration-300"></span>
+              <span className="absolute inset-0 bg-[#ff0000] scale-x-0 group-hover:scale-x-100 transform origin-center transition-transform duration-300"></span>
               <span className="relative group-hover:text-white transition-colors duration-300">
               Logout
               </span>
@@ -40,7 +40,7 @@ export default function Navbar() {
         ) : (
           <>
             <button
-              onClick={() => (window.location.href = '/login')} className="relative group border-2 border-[#78aedb] text-[#78aedb] px-4 py-1 rounded-full overflow-hidden transition-all duration-300"
+              onClick={() => (window.location.href = '/login')} className="relative group border-1 border-[#78aedb] text-[#78aedb] px-4 py-1 rounded-full overflow-hidden transition-all duration-300"
             >
               <span className="absolute inset-0 bg-[#78aedb] scale-x-0 group-hover:scale-x-100 transform origin-center transition-transform duration-300"></span>
               <span className="relative group-hover:text-white transition-colors duration-300">
