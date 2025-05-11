@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
 import { useAuth } from '../authcontext';
 
 export default function Navbar() {

@@ -10,7 +10,7 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     // Check if the token exists in localStorage
-    const storedToken = localStorage.getItem('spotify_access_token');
+    const storedToken = localStorage.getItem('spotifyAccessToken');
     if (storedToken) {
       setIsAuthenticated(true);
       setToken(storedToken);
@@ -20,13 +20,13 @@ export function AuthProvider({ children }) {
   const login = (token) => {
     setIsAuthenticated(true);
     setToken(token);
-    localStorage.setItem('spotify_access_token', token);
+    localStorage.setItem('spotifyAccessToken', token);
   };
 
   const logout = () => {
     setIsAuthenticated(false);
     setToken(null);
-    localStorage.removeItem('spotify_access_token');
+    localStorage.removeItem('spotifyAccessToken');
   };
 
   return (
